@@ -304,8 +304,11 @@ func (container *Container) Start() (err error) {
 	if err := setupMountsForContainer(container); err != nil {
 		return err
 	}
-	if err := container.startLoggingToDisk(); err != nil {
-		return err
+
+	if container.Config.ContainerLog {
+		if err := container.startLoggingToDisk(); err != nil {
+			return err
+		}
 	}
 
 	return container.waitForStart()
